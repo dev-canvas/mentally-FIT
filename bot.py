@@ -1,8 +1,10 @@
 import logging
+import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
 from config import BOT_TOKEN, CHANNEL_ID, ADMIN_ID
-from database import init_db, get_setting, set_setting, get_schedule, add_schedule_time, remove_schedule_time, toggle_schedule_time, get_posts_history
+from database import (init_db, get_setting, set_setting, get_schedule, 
+                     add_schedule_time, remove_schedule_time, toggle_schedule_time, get_posts_history)
 from scheduler import setup_scheduler, update_scheduler, post_affirmation
 from affirmation_generator import generate_affirmation
 from image_generator import create_simple_image
