@@ -263,7 +263,7 @@ async def get_affirmation_photo(aff_id: int) -> str:
     # if fallback_noone_path.exists():
         # return str(fallback_noone_path)
     
-    img = Image.new('RGB', (800, 600), color=(102, 126, 235))
+    img = Image.new('RGB', (300, 200), color=(102, 126, 235))
     draw = ImageDraw.Draw(img)
     
     try:
@@ -275,7 +275,7 @@ async def get_affirmation_photo(aff_id: int) -> str:
     bbox = draw.textbbox((0, 0), text, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
-    position = ((800 - text_width) // 2, (600 - text_height) // 2)
+    position = ((300 - text_width) // 2, (200 - text_height) // 2)
     
     draw.text(position, text, fill="white", font=font)
     img.save(fallback_noone_path)
@@ -285,7 +285,7 @@ async def send_affirmation():
     try:
         aff = await get_next_affirmation()
         photo_path = await get_affirmation_photo(aff["image_id"])
-        caption = f"✨ {aff['text']}\n\nСтавь ❤️\nи другой увидит, что он не один\n\n@mentally_fit"
+        caption = f"✨ {aff['text']}\n\n\n\n\n\nСтавь ❤️\nи другой увидит, что он не один\n\n@mentally_fit"
         
         await bot.send_photo(
             CHANNEL_ID,
