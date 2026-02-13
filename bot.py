@@ -276,7 +276,7 @@ async def get_affirmation_photo(aff_id: int) -> str:
     
     draw.text(position, text, fill="white", font=font)
     img.save(fallback_noone_path)
-    return str(fallback_path)
+    return str(fallback_noone_path)
 
 async def send_affirmation():
     try:
