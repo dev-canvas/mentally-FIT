@@ -259,29 +259,30 @@ async def get_affirmation_photo(aff_id: int) -> str:
     if fallback_path.exists():
         return str(fallback_path)
     
-    img = Image.new('RGB', (800, 600), color=(102, 126, 234))
+    fallback_noone_path = IMAGES_DIR / "noone.png"
+    img = Image.new('RGB', (800, 600), color=(86, 157, 255))
     draw = ImageDraw.Draw(img)
     
     try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 40)
+        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 160)
     except:
         font = ImageFont.load_default()
     
-    text = f"Аффирмация #{aff_id}"
+    text = f"MEFIT\nAffirmation"
     bbox = draw.textbbox((0, 0), text, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
     position = ((800 - text_width) // 2, (600 - text_height) // 2)
     
     draw.text(position, text, fill="white", font=font)
-    img.save(fallback_path)
+    img.save(fallback_noone_path)
     return str(fallback_path)
 
 async def send_affirmation():
     try:
         aff = await get_next_affirmation()
         photo_path = await get_affirmation_photo(aff["image_id"])
-        caption = f"🌟 {aff['text']}"
+        caption = f"✨ {aff['text']}\n\nСтавь ❤️\nи другой увидит, что он не один, кому это нужно\n\n@mentally_fit"
         
         await bot.send_photo(
             CHANNEL_ID,
