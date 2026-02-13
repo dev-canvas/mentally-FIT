@@ -260,10 +260,10 @@ async def get_affirmation_photo(aff_id: int) -> str:
         #return str(fallback_path)
     
     fallback_noone_path = IMAGES_DIR / "noone.png"
-    if fallback_noone_path.exists():
-        return str(fallback_noone_path)
+    # if fallback_noone_path.exists():
+        # return str(fallback_noone_path)
     
-    img = Image.new('RGB', (800, 600), color=(86, 157, 255))
+    img = Image.new('RGB', (800, 600), color=(102, 136, 235))
     draw = ImageDraw.Draw(img)
     
     try:
