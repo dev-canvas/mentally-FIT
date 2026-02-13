@@ -255,9 +255,9 @@ async def get_affirmation_photo(aff_id: int) -> str:
     if path.exists():
         return str(path)
     
-    fallback_path = IMAGES_DIR / "1.png"
-    if fallback_path.exists():
-        return str(fallback_path)
+    #fallback_path = IMAGES_DIR / "1.png"
+    #if fallback_path.exists():
+        #return str(fallback_path)
     
     fallback_noone_path = IMAGES_DIR / "noone.png"
     img = Image.new('RGB', (800, 600), color=(86, 157, 255))
