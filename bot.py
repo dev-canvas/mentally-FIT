@@ -1,19 +1,17 @@
 import asyncio
 import logging
 import os
-import random
 from datetime import datetime, time
 from pathlib import Path
-from typing import List
 
 import aiosqlite
 import pytz
-from aiogram import Bot, Dispatcher, F, types
-from aiogram.filters import Command, CommandStart
+from aiogram import Bot, Dispatcher, F
+from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message, FSInputFile
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
@@ -23,12 +21,13 @@ load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 CHANNEL_ID = os.getenv("CHANNEL_ID")
+
 TZ_NAME = "Europe/Moscow"
 tz = pytz.timezone(TZ_NAME)
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -670,7 +669,7 @@ async def send_affirmation():
         
         await bot.send_photo(
             CHANNEL_ID,
-            photo=types.FSInputFile(photo_path),
+            photo=FSInputFile(photo_path),
             caption=caption
         )
         logger.info(f"Отправлена аффирмация #{aff['id']}: {aff['text'][:30]}...")
