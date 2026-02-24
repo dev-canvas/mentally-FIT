@@ -642,22 +642,22 @@ async def get_next_affirmation() -> dict:
         return {"id": aff_id, "text": text, "image_id": img_id or 1}
 
 
-async def get_affirmation_photo(aff_id: int) -> str:
+async def get_affirmation_photo(aff_id: int, aff_text: str) -> str:
     """Получить путь к фото аффирмации или создать заглушку"""
     path = IMAGES_DIR / f"{aff_id}.png"
     if path.exists():
         return str(path)
     
-    fallback_noone_path = IMAGES_DIR / "noone.png"
-    if fallback_noone_path.exists():
-        return str(fallback_noone_path)
+    #fallback_noone_path = IMAGES_DIR / "noone.png"
+   # if fallback_noone_path.exists():
+      #  return str(fallback_noone_path)
     
     # Создаём fallback изображение
-    img = Image.new('RGB', (1080, 1080), color=(20, 20, 20))
+    img = Image.new('RGB', (800, 600), color=(20, 20, 20))
     draw = ImageDraw.Draw(img)
     
     try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 80)
+        font = ImageFont.truetype("/app/ofont.ru_Makan_Hati.ttf", 120)
     except:
         font = ImageFont.load_default()
     
@@ -665,20 +665,20 @@ async def get_affirmation_photo(aff_id: int) -> str:
     bbox = draw.textbbox((0, 0), text, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
-    position = ((1080 - text_width) // 2, (1080 - text_height) // 2)
+    position = ((800 - text_width) // 2, (600 - text_height) // 2)
     
     draw.text(position, text, fill="white", font=font)
-    img.save(fallback_noone_path)
+    img.save(path)
     
-    return str(fallback_noone_path)
+    return str(path)
 
 
 async def send_affirmation():
     """Отправка аффирмации в канал"""
     try:
         aff = await get_next_affirmation()
-        photo_path = await get_affirmation_photo(aff["image_id"])
-        caption = f"✨ {aff['text']}\n\n\n\nСтавь ❤️ и другой увидит, что он не один\n\n@mentally_fit"
+        photo_path = await get_affirmation_photo(aff["image_id"], aff["text"])
+        caption = f"✨\n\n\n\nСтавь ❤️ и другой увидит, что он не один\n\n@mentally_fit"
         
         await bot.send_photo(
             CHANNEL_ID,
