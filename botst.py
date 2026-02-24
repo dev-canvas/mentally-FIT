@@ -694,7 +694,7 @@ async def get_affirmation_photo(aff_id: int, aff_text: str) -> str:
     text_height = bbox[3] - bbox[1]
     position = ((800 - text_width) // 2, (600 - text_height) // 2)
     
-    draw.text(position, text, fill="white", font=font)
+    draw.text(position, text, fill="black", font=font)
     img.save(path)
     
     return str(path)
