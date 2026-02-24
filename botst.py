@@ -684,7 +684,7 @@ async def get_affirmation_photo(aff_id: int, aff_text: str) -> str:
     draw = ImageDraw.Draw(img)
     
     try:
-        font = ImageFont.truetype("/app/ofont.ru_Makan_Hati.ttf", 120)
+        font = ImageFont.truetype("/app/TTNormsPro-Thin.ttf", 120)
     except:
         font = ImageFont.load_default()
     
