@@ -661,7 +661,7 @@ async def get_affirmation_photo(aff_id: int, aff_text: str) -> str:
     except:
         font = ImageFont.load_default()
     
-    text = "STERVAFIT"
+    text = aff_text
     bbox = draw.textbbox((0, 0), text, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
