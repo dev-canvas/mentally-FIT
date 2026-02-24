@@ -1,6 +1,8 @@
 import asyncio
 import logging
 import os
+import random
+from PIL import Image
 from datetime import datetime, time
 from pathlib import Path
 
@@ -641,6 +643,31 @@ async def get_next_affirmation() -> dict:
         logger.info(f"Выбрана аффирмация #{aff_id}")
         return {"id": aff_id, "text": text, "image_id": img_id or 1}
 
+def random_pastel_color():
+    hue = random.random()  # 0-1
+    sat = random.uniform(0.3, 0.5)  # Низкая насыщенность для пастели
+    light = random.uniform(0.8, 0.95)  # Высокая светлость
+    
+    # HSL -> RGB (упрощённая формула)
+    c = (1 - abs(2 * light - 1)) * sat
+    x = c * (1 - abs((hue * 6) % 2 - 1))
+    m = light - c / 2
+    
+    if 0 <= hue < 1/6:
+        r, g, b = c, x, 0
+    elif 1/6 <= hue < 2/6:
+        r, g, b = x, c, 0
+    elif 2/6 <= hue < 3/6:
+        r, g, b = 0, c, x
+    elif 3/6 <= hue < 4/6:
+        r, g, b = 0, x, c
+    elif 4/6 <= hue < 5/6:
+        r, g, b = x, 0, c
+    else:
+        r, g, b = c, 0, x
+    
+    return tuple(int(255 * (v + m)) for v in (r, g, b))
+
 
 async def get_affirmation_photo(aff_id: int, aff_text: str) -> str:
     """Получить путь к фото аффирмации или создать заглушку"""
@@ -653,7 +680,7 @@ async def get_affirmation_photo(aff_id: int, aff_text: str) -> str:
       #  return str(fallback_noone_path)
     
     # Создаём fallback изображение
-    img = Image.new('RGB', (800, 600), color=(20, 20, 20))
+    img = Image.new('RGB', (800, 600), color=random_pastel_color())
     draw = ImageDraw.Draw(img)
     
     try:
