@@ -719,6 +719,25 @@ async def get_affirmation_photo(aff_id: int, aff_text: str) -> str:
     
     img.save(path)
     return str(path)
+    
+    
+async def send_form():
+    """Отправка аффирмации в канал"""
+    try:
+        aff = await get_next_affirmation()
+        photo_path = await get_affirmation_photo(aff["image_id"], aff["text"])
+        caption = f"✨\n\n\n\nСтавь ❤️ и другой увидит, что он не один\n\n@mentally_fit"
+        
+        await bot.send_photo(
+            "@test_devcanvas_bot",
+            photo=FSInputFile(photo_path),
+            caption=caption
+        )
+        
+        logger.info(f"✅ Отправлена аффирмация #{aff['id']}: {aff['text'][:30]}...")
+    except Exception as e:
+        logger.error(f"❌ Ошибка отправки теста формы аффирмации: {e}")
+
 
 
 async def send_affirmation():
@@ -776,7 +795,10 @@ def get_main_keyboard():
         ],
         [
             InlineKeyboardButton(text="🗑 Удалить время", callback_data="del_time"),
-            InlineKeyboardButton(text="📤 Тест", callback_data="test_post")
+            InlineKeyboardButton(text="📤 Тест отправки в канал", callback_data="test_post")
+        ],
+        [
+            InlineKeyboardButton(text="📤 Тест офориления", callback_data="test_format")
         ]
     ])
 
@@ -967,6 +989,12 @@ async def test_post_cb(cb: CallbackQuery):
     """Тестовая отправка аффирмации"""
     await send_affirmation()
     await cb.answer("✅ Тестовая аффирмация отправлена!", show_alert=True)
+    
+@dp.callback_query(F.data == "test_form")
+async def test_form_cb(cb: CallbackQuery):
+    """Тестовая отправка аффирмации"""
+    await send_form() 
+
 
 
 async def main():
