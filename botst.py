@@ -36,7 +36,7 @@ bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 scheduler = AsyncIOScheduler(timezone=tz)
 
-DATA_DIR = Path("data")
+DATA_DIR = Path("\app\data")
 DB_PATH = DATA_DIR / "affirmations.db"
 IMAGES_DIR = DATA_DIR / "images"
 
