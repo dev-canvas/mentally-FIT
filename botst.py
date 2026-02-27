@@ -30,8 +30,9 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID", 0))
 CHANNEL_ID = os.getenv("CHANNEL_ID")
 
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "bot.db"
+
+BASE_DIR = Path("/app/data")
+DB_PATH = BASE_DIR / "affirmations.db"
 IMAGES_DIR = BASE_DIR / "images"
 IMAGES_DIR.mkdir(exist_ok=True)
 
